@@ -21,116 +21,112 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Flipkart {
 
-static WebDriver driver;
-	
+	static WebDriver driver;
+
 	@BeforeClass
-	public static void beforeClass() 
-	{
+	public static void beforeClass() {
 		WebDriverManager.chromedriver().setup();
-		driver=new ChromeDriver();
+		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.manage().window().maximize();
 
 	}
-	
+
 	@AfterClass
-	public static void afterClass() 
-	{
+	public static void afterClass() {
 		driver.quit();
 
 	}
-	
+
 	@Before
 	public void before() {
-	 Date d=new Date();
-	 System.out.println("Before......"+d);
+		Date d = new Date();
+		System.out.println("Before......" + d);
 
 	}
-		
+
 	@After
 	public void after() {
-		Date d= new Date();
-		System.out.println("After......"+d);
+		Date d = new Date();
+		System.out.println("After......" + d);
 
 	}
-//	SEARCH PAGE
+
+	// SEARCH PAGE
 	@Test
 	public void test1() {
 		driver.get("https://www.flipkart.com/");
 		driver.findElement(By.xpath("//span[@class='_30XB9F']")).click();
 		driver.findElement(By.name("q")).sendKeys("iphone 14");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		}
-	
-//  LIST OF PRODUCTS
+	}
+
+	// LIST OF PRODUCTS
 	@Test
 	public void test2() {
 		List<WebElement> li = driver.findElements(By.xpath("//div[@class='_4rR01T']"));
-		for(int i=0;i<li.size();i++) 
-		{
-		  
-				WebElement w=li.get(i);
-				String s=w.getText();
-				
-				System.out.println(s);
-			
+		for (int i = 0; i < li.size(); i++) {
+
+			WebElement w = li.get(i);
+			String s = w.getText();
+
+			System.out.println(s);
 
 		}
 		System.out.println("..............................................");
 	}
-	
-//	PRICE LIST
+
+	// PRICE LIST
 	@Test
 	public void test3() {
 		List<WebElement> l = driver.findElements(By.xpath("//div[@class='_30jeq3 _1_WHN1']"));
-		for(int i=0;i<l.size();i++) 
-		{
-		  
-				WebElement w=l.get(i);
-				String s=w.getText();
-				
-				System.out.println(s);
-//	  TO PRINT MAXIMUM PRICE	
-				if(s.contains("₹"))
-				{
-					s=s.replace("₹", "");
-//					System.out.println(s);
-				}
-				if(s.contains(","))
-				{
-					s=s.replace(",", "");
-//					System.out.println(s);
-				}
-				int ii=Integer.parseInt(s);
-				System.out.println(ii);
-//				System.out.println(l);
-//				Collections.sort(l);
-				 
-      }
-		System.out.println(l);
-//		System.out.println("max: "+Collections.max(l));
-		System.out.println(".............................................");
-	}	
-	
+		for (int i = 0; i < l.size(); i++) {
 
-	
-	
-//	MATCH THE PRODUCTS WITH PRICE
+			WebElement w = l.get(i);
+			String s = w.getText();
+
+			// ₹57,999
+
+			String x = null;
+			
+			
+
+			// System.out.println(s);
+			// TO PRINT MAXIMUM PRICE
+			if (s.contains("₹")) {
+				x = s.replace("₹", "");
+				// System.out.println(s);
+			}
+			if (x.contains(",")) {
+				x = x.replace(",", "");
+				// System.out.println(s);
+			}
+			System.out.println(x);
+			int ii = Integer.parseInt(x);
+			System.out.println(ii);
+//			List<Integer> li=new LinkedList<>();
+//			li.add(x);
+		}
+//		System.out.println(l);
+		List<WebElement> li=new LinkedList<WebElement>();
+ 		li.addAll(l);
+ 		System.out.println(li);
+//		 System.out.println("max: "+Collections.sort(li)));
+		System.out.println(".............................................");
+	}
+ 
+	// MATCH THE PRODUCTS WITH PRICE
 	@Test
 	public void test6() {
 		List<WebElement> li = driver.findElements(By.xpath("//div[@class='_4rR01T']"));
 		List<WebElement> l = driver.findElements(By.xpath("//div[@class='_30jeq3 _1_WHN1']"));
-		for(int i=0;i<li.size();i++)
-		{
-				String w=li.get(i).getText();
-				String r=l.get(i).getText();
-				System.out.println("product with price :"+w+r);
-				
-			
+		for (int i = 0; i < li.size(); i++) {
+			String w = li.get(i).getText();
+			String r = l.get(i).getText();
+			System.out.println("product with price :" + w + r);
+
 		}
 
 	}
-	
-	
-	}
 
+}
